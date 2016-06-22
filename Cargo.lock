@@ -1,5 +1,5 @@
 [root]
-name = "trm-6-template"
+name = "trm6_template"
 version = "0.1.0"
 dependencies = [
  "clippy 0.0.77 (registry+https://github.com/rust-lang/crates.io-index)",

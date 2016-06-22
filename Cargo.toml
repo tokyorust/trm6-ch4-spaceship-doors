@@ -1,5 +1,5 @@
 [package]
-name = "trm-6-template"
+name = "trm6_template"
 version = "0.1.0"
 
 [dependencies]
