@@ -1,5 +1,5 @@
 [package]
-name = "trm6_template"
+name = "trm6_ch4_spaceship_doors"
 version = "0.1.0"
 
 [dependencies]
