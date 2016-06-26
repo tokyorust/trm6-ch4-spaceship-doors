@@ -12,7 +12,7 @@ use std::sync::Arc;
 use std::thread;
 use std::time::Duration;
 
-use trm6_ch4_spaceship_doors::airlock::{Controller, Door};
+use trm6_ch4_spaceship_doors::airlock::{Controller, Door, Config};
 use trm6_ch4_spaceship_doors::airlock::Error;
 
 struct Operator<'a> {
@@ -44,28 +44,20 @@ impl<'a> Operator<'a> {
 fn main() {
     env_logger::init().unwrap();
 
-    let controller = Arc::new(Controller::new());
-
-    let mut inner_door = Door::new("inner door", controller.clone());
-    let mut outer_door = Door::new("outer door", controller.clone());
+    let controller = Arc::new(Controller::new(Config { max_open: 1 }));
 
     let mut threads = Vec::new();
 
-    threads.push(thread::spawn(move || {
-        let mut operator = Operator::new(&mut inner_door);
-        loop {
-            operator.operate();
-            thread::sleep(Duration::from_millis(50));
-        }
-    }));
-
-    threads.push(thread::spawn(move || {
-        let mut operator = Operator::new(&mut outer_door);
-        loop {
-            operator.operate();
-            thread::sleep(Duration::from_millis(50));
-        }
-    }));
+    for &name in &["inner door", "outer door", "shields"] {
+        let mut door = Door::new(name, controller.clone());
+        threads.push(thread::spawn(move || {
+            let mut operator = Operator::new(&mut door);
+            loop {
+                operator.operate();
+                thread::sleep(Duration::from_millis(50));
+            }
+        }));
+    }
 
     for t in threads {
         t.join().unwrap();

@@ -1,14 +1,18 @@
 use std::sync::Mutex;
 
-use airlock::{Result, Error, Door};
+use airlock::{Result, Error, Door, Config};
 
 pub struct Controller {
-    counter: Mutex<u32>,
+    config: Config,
+    counter: Mutex<u8>,
 }
 
 impl Controller {
-    pub fn new() -> Controller {
-        Controller { counter: Mutex::new(0) }
+    pub fn new(config: Config) -> Controller {
+        Controller {
+            config: config,
+            counter: Mutex::new(0),
+        }
     }
 
     pub fn open(&self, door: &mut Door) -> Result<()> {
@@ -18,7 +22,7 @@ impl Controller {
             return Err(Error::UnchangedState);
         }
 
-        if *counter > 0 {
+        if *counter >= self.config.max_open {
             return Err(Error::IllegalAction);
         }
 
