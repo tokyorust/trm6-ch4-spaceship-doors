@@ -13,3 +13,7 @@ It's year 2045 and humankind has launched its first long range spaceship. Unfort
 As the new Head Airlock Engineer, it is now your responsibility to design an airlock system that allows both doors to be operated in any order, excepting that they cannot be open at the same time.
 
 You'll have two Operators (threads) operating independently, either closing or opening doors randomly. If two doors would end up being open simultaneously, the operation should not complete, but rather return a `Result` with an appropriate error.
+
+## (Optional bonus challenge 1)
+
+Make the airlock support any number of doors.
